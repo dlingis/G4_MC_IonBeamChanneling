@@ -1,0 +1,108 @@
+/mydet/setDetMaterial G4_Galactic
+# mazinant detektoriaus dydi praeina daugiau daleliu
+/mydet/setSize 100. 100. 1. cm
+/mydet/setDistance1 -2. m
+/mydet/setDistance2  -1. m
+/mydet/setDistance3  +1. m
+/mydet/setDistance4  +2. m
+
+#The crystal properties can be changed via the macro commands:
+/xtal/setMaterial G4_Si
+/xtal/setSize 50. 50. 0.003 mm #
+/xtal/setAngle 0. 0.0 0. degree
+/xtal/setBR 0. 0. 0. m
+#/xtal/setEC data/Cu100pl
+/xtal/setEC data/HOPG001ax
+#/xtal/SetAmorphous true
+/xtal/SetLogicalAmorphous 0
+
+#initialize run before stacking and primary generator actions
+/run/initialize 
+
+
+#/run/verbose 2
+#/tracking/verbose 2
+#/event/verbose 2
+
+
+
+/gps/particle ion
+/gps/ion 7 14 
+#/gps/List
+
+/gps/ene/mono 180. keV
+
+#/gps/verbose 2
+#set gps properties
+#/gps/ene/mono 1. MeV
+#/gps/particle proton
+#/gps/List
+
+#/gps/ene/mono 9. MeV
+
+/gps/pos/type Point
+/gps/pos/centre 0 0 -3. m
+
+/gps/ang/type focused
+
+#/gps/ang/type beam2d
+#/gps/ang/rot1 1  0  0
+#/gps/ang/rot2 0 -1  0
+
+#atitinka 0 0 -1
+
+#/gps/ang/rot1 1  0  0
+#/gps/ang/rot2 -1 0  0
+
+/gps/direction 0 0 1
+
+#/gps/ang/sigma_x 13.36E-6 rad
+#/gps/ang/sigma_y 11.25E-6 rad
+
+
+#/gps/pos/type Plane
+#/gps/pos/shape Circle
+#/gps/pos/radius 0.01 mm
+#/gps/direction 0 0 1 
+
+
+#/gps/source/list
+
+
+#/filename alpha
+#kill all secondaries produced
+#/mystack/KillAllSecondaries 1
+
+/run/printProgress 100
+
+/analysis/setFileName test_ax_N14_180keV
+#/analysis/h1/set 0 100 0 2. MeV 
+/analysis/h1/set 1  100  0. 2. MeV #Edep
+/analysis/h1/set 2 100  0.   1. um	#Edep profile
+/analysis/h1/set 3  100  0. 2. MeV	#Eflow
+/analysis/h1/set 7  200  0. 2. MeV 	#protons at exit Eflow
+/analysis/h1/set 10 100 0. 2. MeV 	# all other particles at exit
+/analysis/h1/set 14  100  0. 1. um  #FP koncentracija
+/analysis/h1/set 15  100  0. 1. um #sklaidos kampas
+/analysis/h1/set 16  100  0. 1. um  # Projected range
+/analysis/h1/set 17  100  0. 1. um # niel pagal atstuma
+/analysis/h1/set 18  100  0. 0.05 keV # niel pagal energija
+/analysis/h1/set 19  100  0. 2. keV #edep pagal energija
+
+#		  " Sklaidos kampas ",						//16
+#		  " Projected range distribution ",				//17	->
+#		  " NIEL pagal atstuma, keV	",				//18 
+#		  " NIEL pagal energija",					//19
+#		  " EDEP pagal energija "					//20
+
+
+#/analysis/setHistoDirName Histo
+#/analysis/setNtupleDirName Ntuple
+
+/analysis/setActivation true
+
+#/testem/stepMax 10. nm
+
+#beam on
+/run/beamOn 10000
+

@@ -1,0 +1,89 @@
+/mydet/setDetMaterial G4_Galactic
+# mazinant detektoriaus dydi praeina daugiau daleliu
+/mydet/setSize 100. 100. 1. cm
+/mydet/setDistance1 -2. m
+/mydet/setDistance2  -1. m
+/mydet/setDistance3  +1. m
+/mydet/setDistance4  +2. m
+
+#The crystal properties can be changed via the macro commands:
+/xtal/setMaterial G4_Si
+/xtal/setSize 50. 50. 0.046 mm #
+/xtal/setAngle 0. 0. 0. degree
+/xtal/setBR 0. 0. 0. m
+#/xtal/setEC data/Cu100pl
+/xtal/setEC data/Si110ax
+/xtal/SetAmorphous true
+/xtal/SetLogicalAmorphous 1
+
+#initialize run before stacking and primary generator actions
+/run/initialize 
+
+#/gps/verbose 2
+#set gps properties
+#/gps/ene/mono 1. MeV
+/gps/particle proton
+#/gps/List
+
+/gps/ene/mono 5. MeV
+
+/gps/pos/type Point
+/gps/pos/centre 0 0 -3. m
+
+/gps/ang/type focused
+
+#/gps/ang/type beam2d
+#/gps/ang/rot1 1  0  0
+#/gps/ang/rot2 0 -1  0
+
+#atitinka 0 0 -1
+
+#/gps/ang/rot1 1  0  0
+#/gps/ang/rot2 -1 0  0
+
+/gps/direction 0 0 1 
+
+#/gps/ang/sigma_x 13.36E-6 rad
+#/gps/ang/sigma_y 11.25E-6 rad
+
+
+#/gps/pos/type Plane
+#/gps/pos/shape Circle
+#/gps/pos/radius 0.01 mm
+#/gps/direction 0 0 1 
+
+
+#/gps/source/list
+
+
+#/filename alpha
+#kill all secondaries produced
+#/mystack/KillAllSecondaries 1
+/testem/stack/killSecondaries 1
+
+/run/printProgress 100
+
+/analysis/setFileName test_ax_protons_5MeV_amo
+#/analysis/setFileName lithium
+#/analysis/setFileName alpha
+/analysis/h1/set 1  100  0.0001 2. MeV #Edep
+/analysis/h1/set 2 100  0.   0.02 mm	#Edep profile
+/analysis/h1/set 3  100  0. 2. MeV	#Eflow
+/analysis/h1/set 7  200  0. 2. MeV 	#protons at exit Eflow
+/analysis/h1/set 10 100 0. 2. MeV 	# all other particles at exit
+/analysis/h1/set 14  100  0. 0.002 mm #FP koncentracija
+/analysis/h1/set 16  100  0. 0.002 mm # sklaidos kampu pasiskirstymas
+/analysis/h1/set 17  100  0. 0.002 mm # projected range
+#/analysis/h1/set 18 
+
+
+#/analysis/setHistoDirName Histo
+#/analysis/setNtupleDirName Ntuple
+
+#/analysis/setActivation true
+
+#/testem/stepMax 1000. nm
+
+#beam on
+/run/beamOn 2000
+
